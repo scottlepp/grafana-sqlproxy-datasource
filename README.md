@@ -9,6 +9,28 @@ Connect and Query from any SQL Datasource (oracle, microsoft sql server, postgre
 1. Install Grafana
 2. Clone this repo to the grafana plugins folder (`git clone https://github.com/grafana/sqlproxy-grafana-datasource /var/lib/grafana/plugins/sqlproxy-grafana-datasource`)
 
+## SQL Proxy 
+
+This datasource is dependent upon the SQL Proxy container. https://github.com/scottlepp/sql-proxy
+
+For a quick local setup you can use Docker to run the container.  Once Docker is installed run the following to start the container:
+
+```
+docker run -p 8080:8080 scottlepper/sql-proxy
+```
+
+The proxy will now be running on port 8080.
+
+Follow the instructions here to connect to the SQL Proxy:  https://github.com/scottlepp/sql-proxy
+
+## Using the SqlProxy plugin
+
+In the Grafana Datasource setup, set the URL to the proxy: http://localhost:8080
+
+From the dashboard, add a panel and select SQL Proxy from the Query dropdown.  You will see a SQL Editor.
+
+Enter your SQL and click away to run the SQL command and get results into the panel.
+
 ## How to contribute
 
 This plugin is using Typescript.  
