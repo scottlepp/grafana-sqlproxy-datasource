@@ -1,0 +1,28 @@
+{
+  "name": "sqlproxy-grafana-datasource",
+  "version": "1.0.0",
+  "description": "Sql Proxy Datasource",
+  "scripts": {
+    "build": "grafana-toolkit plugin:build",
+    "test": "grafana-toolkit plugin:test",
+    "dev": "grafana-toolkit plugin:dev",
+    "watch": "grafana-toolkit plugin:dev --watch"
+  },
+  "private": true,
+  "license": "SEE LICENSE IN LICENSE",
+  "devDependencies": {
+    "@grafana/data": "next",
+    "@grafana/runtime": "next",
+    "@grafana/toolkit": "next",
+    "@grafana/ui": "next",
+    "@types/lodash": "4.14.123",
+    "@types/react": "16.8.16 ",
+    "@types/request-promise-native": "^1.0.17"
+  },
+  "screenshots": [
+  ],
+  "dependencies": {
+    "codemirror": "^5.51.0",
+    "react-codemirror2": "^6.0.0"
+  }
+}

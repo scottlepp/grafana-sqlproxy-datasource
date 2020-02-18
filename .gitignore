@@ -1,0 +1,10 @@
+node_modules
+.vscode
+package-lock.json
+json_responses
+.DS_Store
+npm-debug.log
+
+dist
+/.vs
+.theia/settings.json

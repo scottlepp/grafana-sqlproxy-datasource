@@ -1,0 +1,12 @@
+version: "3"
+services:
+  grafana:
+    image: grafana/grafana:${GRAFANA_VERSION:-latest}
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./dist:/var/lib/grafana/plugins/grafana-sqlproxy-datasource
+      - ${GRAFANA_PROVISIONING:-./provisioning}:/etc/grafana/provisioning
+      - ${HOME}:${HOME}
+    environment:
+      - TERM=linux

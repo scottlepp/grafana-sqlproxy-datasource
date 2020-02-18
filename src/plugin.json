@@ -1,0 +1,33 @@
+{
+  "name": "SqlProxy",
+  "id": "grafana-sqlproxy-datasource",
+  "type": "datasource",
+  "metrics": true,
+  "annotations": false,
+  "includes": [
+  ],
+  "routes": [
+  ],
+  "info": {
+    "description": "Sql Proxy Datasource",
+    "author": {
+      "name": "Grafana Labs",
+      "url": "http://github.com/grafana"
+    },
+    "keywords": [
+      "sqlproxy"
+    ],
+    "logos": {
+    },
+    "links": [
+    ],
+    "screenshots": [
+    ],
+    "version": "%VERSION%",
+    "updated": "%TODAY%"
+  },
+  "dependencies": {
+    "grafanaVersion": "6.5.x",
+    "plugins": []
+  }
+}
