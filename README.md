@@ -21,7 +21,7 @@ docker run -p 8080:8080 scottlepper/sql-proxy
 
 The proxy will now be running on port 8080.
 
-Follow the instructions here to connect to the SQL Proxy:  https://github.com/scottlepp/sql-proxy
+Follow the instructions here to connect to the SQL Proxy:  https://github.com/scottlepp/sql-proxy#using-the-proxy
 
 ## Using the SqlProxy plugin
 
