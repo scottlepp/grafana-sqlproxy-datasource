@@ -13,13 +13,12 @@ import {
 import {
   SqlQuery,
 } from './types';
-import { TemplateSrv } from '../test/template_srv';
 import { getBackendSrv } from '@grafana/runtime';
 
 export class DataSource extends DataSourceApi<SqlQuery, DataSourceJsonData> {
 
   /** @ngInject */
-  constructor(private instanceSettings: DataSourceInstanceSettings<DataSourceJsonData>, public templateSrv: TemplateSrv) {
+  constructor(private instanceSettings: DataSourceInstanceSettings<DataSourceJsonData>, public templateSrv: any) {
     super(instanceSettings);
   }
 
@@ -86,7 +85,7 @@ export class DataSource extends DataSourceApi<SqlQuery, DataSourceJsonData> {
 
   async testDatasource() {
     const url = this.instanceSettings.url!;
-    const response = await getBackendSrv().datasourceRequest({ url });
+    const response = await getBackendSrv().post(url, this.instanceSettings.jsonData);
     return {
       status: 'success',
       message: response.data,
