@@ -6,4 +6,4 @@ import { DataSource } from './SqlProxyDatasource';
 
 export const plugin = new DataSourcePlugin<DataSource, SqlQuery, DataSourceJsonData>(DataSource)
   .setConfigEditor(ConfigEditor)
-  .setQueryEditor(QueryEditor)
+  .setQueryEditor(QueryEditor);
