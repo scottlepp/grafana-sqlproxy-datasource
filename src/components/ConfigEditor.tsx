@@ -55,6 +55,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
     return (
       <Input
         type={input.type}
+        css={input.css}
         className={input.style}
         placeholder={input.placeholder}
         value={this.state.jsonData[input.key]}
