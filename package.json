@@ -11,10 +11,10 @@
   "private": true,
   "license": "SEE LICENSE IN LICENSE",
   "devDependencies": {
-    "@grafana/data": "7.0.6",
-    "@grafana/runtime": "7.0.6",
-    "@grafana/toolkit": "7.0.6",
-    "@grafana/ui": "7.0.6",
+    "@grafana/data": "7.1.3",
+    "@grafana/runtime": "7.1.3",
+    "@grafana/toolkit": "7.1.3",
+    "@grafana/ui": "7.1.3",
     "@types/lodash": "4.14.123",
     "@types/react": "16.8.16 ",
     "@types/request-promise-native": "^1.0.17"

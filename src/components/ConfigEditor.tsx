@@ -43,7 +43,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
     const jsonData = { ...state.jsonData, ...option };
 
     const { onOptionsChange, options } = this.props;
-    const opt = {...options, url: option.url || options.url};
+    const opt = { ...options, url: option.url || options.url };
     onOptionsChange({
       ...opt,
       jsonData,
