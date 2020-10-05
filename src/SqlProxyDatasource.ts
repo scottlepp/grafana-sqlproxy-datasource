@@ -71,7 +71,7 @@ export class DataSource extends DataSourceApi<SqlQuery, DataSourceJsonData> {
       targets: visibleTargets.map(target => {
         const query: SqlQuery = {
           ...target,
-          sql: this.applyMacros(this.templateSrv.replace(target.sql), options),
+          sql: this.applyMacros(this.templateSrv.replace(target.sql, options.scopedVars), options),
         };
         return query;
       }),
@@ -115,8 +115,14 @@ export class DataSource extends DataSourceApi<SqlQuery, DataSourceJsonData> {
   }
 
   metricFindQuery(query: any) {
-    console.log('query', query);
-    return Promise.resolve([]);
+    const baseUrl = this.instanceSettings.url!;
+    const route = baseUrl.endsWith('/') ? 'query?' : '/query?';
+    const url = `${baseUrl}${route}sql=${query}`;
+    return getBackendSrv()
+      .datasourceRequest({ url })
+      .then(res => {
+        return res.data.map(v => ({text: Object.values(v)}));
+      });
   }
 
   async testDatasource() {
