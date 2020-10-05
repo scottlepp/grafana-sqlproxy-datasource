@@ -1,5 +1,7 @@
 # SqlProxy Grafana Datasource
 
+![Diagram](https://github.com/scottlepp/grafana-sqlproxy-datasource/blob/master/SQLProxyPlugin.png)
+
 ## Features
 
 Connect and Query from any SQL Datasource (oracle, microsoft sql server, postgresql, mysql, snowflake, etc)
