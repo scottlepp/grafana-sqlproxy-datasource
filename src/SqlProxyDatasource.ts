@@ -7,12 +7,13 @@ import {
   DataSourceJsonData,
   MutableDataFrame,
   DataFrame,
-  guessFieldTypeFromValue,
+  guessFieldTypeFromValue, 
+  FieldType
 } from '@grafana/data';
 
 import { SqlQuery } from './types';
 import { getBackendSrv } from '@grafana/runtime';
-import { format } from 'date-fns';
+import { format, roundToNearestMinutes } from 'date-fns';
 
 export class DataSource extends DataSourceApi<SqlQuery, DataSourceJsonData> {
   /** @ngInject */
@@ -56,6 +57,11 @@ export class DataSource extends DataSourceApi<SqlQuery, DataSourceJsonData> {
       const fields = Object.keys(array[0]).map(field => {
         return { name: field, type: guessFieldTypeFromValue(array[0][field]) };
       });
+      for (const field of fields) {
+        if (field.name.toLowerCase() === "time") {
+          field.type = FieldType.time;
+        }
+      }
       dataFrame = new MutableDataFrame({ fields });
       array.forEach((row, index) => {
         dataFrame.appendRow(Object.values(row));
