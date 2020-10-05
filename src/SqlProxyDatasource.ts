@@ -12,6 +12,7 @@ import {
 
 import { SqlQuery } from './types';
 import { getBackendSrv } from '@grafana/runtime';
+import { format } from 'date-fns';
 
 export class DataSource extends DataSourceApi<SqlQuery, DataSourceJsonData> {
   /** @ngInject */
@@ -70,11 +71,47 @@ export class DataSource extends DataSourceApi<SqlQuery, DataSourceJsonData> {
       targets: visibleTargets.map(target => {
         const query: SqlQuery = {
           ...target,
-          sql: this.templateSrv.replace(target.sql),
+          sql: this.applyMacros(this.templateSrv.replace(target.sql), options),
         };
         return query;
       }),
     };
+  }
+
+  applyMacros(sql: string, options: DataQueryRequest<SqlQuery>) {
+    if (sql.includes('$__timeFrom(')) {
+      sql = this.applyMacroFunction('$__timeFrom(', sql, options);
+    }
+    if (sql.includes('$__timeTo(')) {
+      sql = this.applyMacroFunction('$__timeTo(', sql, options);
+    }
+    if (sql.includes('$__timeFrom')) {
+      sql = sql.replace(/\$__timeFrom/g, options.startTime.toString());
+    }
+    if (sql.includes('$__timeTo')) {
+      sql = sql.replace(/\$__timeTo/g, options.endTime?.toString() ?? '');
+    }
+    return sql;
+  }
+
+  applyMacroFunction(macro: string, sql: string, options: DataQueryRequest<SqlQuery>) {
+    if (sql.includes(macro)) {
+      let time;
+      if (macro === '$__timeFrom(') {
+        time = new Date(options.startTime);
+      } else {
+        time = new Date(options.endTime!);
+      }
+
+      const start = sql.indexOf(macro) + macro.length;
+      const end = sql.indexOf(')', start);
+      const fmt = sql.substring(start, end);
+      const dateStr = format(time, fmt);
+      const toReplace = sql.substring(start - macro.length, end + 1);
+      sql = sql.replace(toReplace, dateStr);
+      return this.applyMacroFunction(macro, sql, options);
+    }
+    return sql;
   }
 
   metricFindQuery(query: any) {

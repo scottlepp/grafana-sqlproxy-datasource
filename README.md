@@ -31,6 +31,18 @@ From the dashboard, add a panel and select SQL Proxy from the Query dropdown.  Y
 
 Enter your SQL and click away to run the SQL command and get results into the panel.
 
+## Time macros
+
+To reference the dashboard time frame, you can supply macros (variables) within your sql:
+
+* $__timeFrom - the start time in milliseconds
+* $__timeTo - the end time in milliseconds
+* $__timeFrom(format) - the start time converted to a date string with the supplied format
+* $__timeTo(format) - the end time converted to a date string with the supplied format
+
+"format" example: 
+* SELECT NAME FROM FOO where "TIME" > '$__timeFrom(yyyy-MM-dd hh:mm:ss)' and "TIME" < '$__timeTo(yyyy-MM-dd)'
+
 ## How to contribute
 
 This plugin is using Typescript.  
