@@ -8,7 +8,7 @@ import {
   MutableDataFrame,
   DataFrame,
   guessFieldTypeFromValue, 
-  FieldType
+  FieldType,
 } from '@grafana/data';
 
 import { SqlQuery } from './types';
@@ -58,7 +58,7 @@ export class DataSource extends DataSourceApi<SqlQuery, DataSourceJsonData> {
         return { name: field, type: guessFieldTypeFromValue(array[0][field]) };
       });
       for (const field of fields) {
-        if (field.name.toLowerCase() === "time") {
+        if (field.name.toLowerCase() === 'time') {
           field.type = FieldType.time;
         }
       }
@@ -127,7 +127,7 @@ export class DataSource extends DataSourceApi<SqlQuery, DataSourceJsonData> {
     return getBackendSrv()
       .datasourceRequest({ url })
       .then(res => {
-        return res.data.map(v => ({text: Object.values(v)}));
+        return res.data.map(v => ({ text: Object.values(v) }));
       });
   }
 
