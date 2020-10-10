@@ -18,16 +18,16 @@ This datasource is dependent upon the SQL Proxy container. https://github.com/sc
 For a quick local setup you can use Docker to run the container.  Once Docker is installed run the following to start the container:
 
 ```
-docker run -p 8080:8080 scottlepper/sql-proxy
+docker run -p 8081:8081 scottlepper/sql-proxy
 ```
 
-The proxy will now be running on port 8080.
+The proxy will now be running on port 8081.
 
 Follow the instructions here to connect to the SQL Proxy:  https://github.com/scottlepp/sql-proxy#using-the-proxy
 
 ## Using the SqlProxy plugin
 
-In the Grafana Datasource setup, set the URL to the proxy: http://localhost:8080
+In the Grafana Datasource setup, set the URL to the proxy: http://localhost:8081
 
 From the dashboard, add a panel and select SQL Proxy from the Query dropdown.  You will see a SQL Editor.
 
