@@ -1,17 +1,26 @@
-import { logger as log, BackendSrvImpl, CheckHealthRequest, CheckHealthResponse, DiagnosticsService, CollectMetricsRequest, CollectMetricsResponse } from '@grafana/tsbackend';
+import { logger as log, CheckHealthRequest, CheckHealthResponse, DiagnosticsService, CollectMetricsRequest, CollectMetricsResponse } from '@grafana/tsbackend';
+import { SqlOptions } from './types';
+import fetch from 'node-fetch';
 
 export class SqlProxyDiagnosticsService extends DiagnosticsService {
   CheckHealth = async (request: CheckHealthRequest): Promise<CheckHealthResponse> => {
-    log.debug("We got a check health request", request.toObject().plugincontext?.datasourceinstancesettings);
-    const instanceSettings = request.toObject().plugincontext?.datasourceinstancesettings;
+    const requestObj: CheckHealthRequest.AsObject = request.toObject();
+    const instanceSettings = requestObj.plugincontext?.datasourceinstancesettings;
     const response: CheckHealthResponse = new CheckHealthResponse();
 
+    log.debug("We got a check health request", instanceSettings);
     if (instanceSettings) {
-      const { jsondata, url } = instanceSettings;
-      const backendSrv = new BackendSrvImpl(instanceSettings);
-      const innerResponse = await backendSrv.post(url, jsondata);
+      const { jsondata } = instanceSettings;
+      const json: SqlOptions = JSON.parse(Buffer.from(jsondata as string, 'base64').toString('ascii'));
+      log.debug("We have jsondata", json.url, json);
+      const innerResponse = await fetch(json.url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(json),
+      });
+
       response.setStatus(CheckHealthResponse.HealthStatus.OK)
-      response.setMessage(innerResponse.data); 
+      response.setMessage(JSON.stringify(innerResponse)); 
     } else {
       response.setStatus(CheckHealthResponse.HealthStatus.ERROR);
       response.setMessage("Please configure the datasource first");
