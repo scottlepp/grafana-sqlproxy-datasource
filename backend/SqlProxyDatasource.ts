@@ -7,13 +7,13 @@ import {
   DataSourceJsonData,
   MutableDataFrame,
   DataFrame,
-  guessFieldTypeFromValue, 
+  guessFieldTypeFromValue,
   FieldType,
 } from '@grafana/data';
 
 import { SqlQuery } from './types';
 import { getBackendSrv } from '@grafana/runtime';
-import { format, roundToNearestMinutes } from 'date-fns';
+import { format } from 'date-fns';
 
 export class DataSource extends DataSourceApi<SqlQuery, DataSourceJsonData> {
   /** @ngInject */
@@ -100,7 +100,7 @@ export class DataSource extends DataSourceApi<SqlQuery, DataSourceJsonData> {
     return sql;
   }
 
-  applyMacroFunction(macro: string, sql: string, options: DataQueryRequest<SqlQuery>) {
+  applyMacroFunction(macro: string, sql: string, options: DataQueryRequest<SqlQuery>): string {
     if (sql.includes(macro)) {
       let time;
       if (macro === '$__timeFrom(') {
@@ -127,7 +127,7 @@ export class DataSource extends DataSourceApi<SqlQuery, DataSourceJsonData> {
     return getBackendSrv()
       .datasourceRequest({ url })
       .then(res => {
-        return res.data.map(v => ({ text: Object.values(v) }));
+        return res.data.map((v: any) => ({ text: Object.values(v) }));
       });
   }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { DataSource } from '../SqlProxyDatasource';
+import { DataSource } from '../Datasource';
 import { QueryEditorProps, DataSourceJsonData } from '@grafana/data';
-import { SqlQuery } from 'types';
+import { SqlQuery, SqlOptions } from 'types';
 import { Controlled as CodeMirror } from 'react-codemirror2';
 
 import 'codemirror/lib/codemirror.css';
@@ -9,7 +9,7 @@ import 'codemirror/theme/darcula.css';
 require('codemirror/mode/sql/sql');
 import './QueryEditor.scss';
 
-type Props = QueryEditorProps<DataSource, SqlQuery, DataSourceJsonData>;
+type Props = QueryEditorProps<DataSource, SqlQuery, SqlOptions>;
 
 interface State {
   sql: string;
