@@ -1095,7 +1095,7 @@
     url-loader "^2.0.1"
     webpack "4.41.5"
 
-"@grafana/tsbackend@link:../../grafana-tsbackend":
+"@grafana/tsbackend@link:../../../stephanie/src/grafana-tsbackend":
   version "0.0.0"
   uid ""
 

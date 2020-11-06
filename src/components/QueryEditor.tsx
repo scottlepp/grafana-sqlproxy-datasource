@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { DataSource } from '../Datasource';
-import { QueryEditorProps, DataSourceJsonData } from '@grafana/data';
-import { SqlQuery, SqlOptions } from 'types';
+import { QueryEditorProps } from '@grafana/data';
+import { Settings, SqlQuery } from 'types';
 import { Controlled as CodeMirror } from 'react-codemirror2';
 
 import 'codemirror/lib/codemirror.css';
@@ -9,14 +9,14 @@ import 'codemirror/theme/darcula.css';
 require('codemirror/mode/sql/sql');
 import './QueryEditor.scss';
 
-type Props = QueryEditorProps<DataSource, SqlQuery, SqlOptions>;
+type Props = QueryEditorProps<DataSource, SqlQuery, Settings>;
 
 interface State {
   sql: string;
 }
 
 export class QueryEditor extends Component<Props, State> {
-  constructor(props: QueryEditorProps<DataSource, SqlQuery, DataSourceJsonData>, context: any) {
+  constructor(props: QueryEditorProps<DataSource, SqlQuery, Settings>, context: any) {
     super(props, context);
     this.state = { sql: props.query.sql };
   }

@@ -4,20 +4,19 @@ import {
   DataQueryResponse,
   DataSourceApi,
   DataSourceInstanceSettings,
-  DataSourceJsonData,
   MutableDataFrame,
   DataFrame,
   guessFieldTypeFromValue,
   FieldType,
 } from '@grafana/data';
 
-import { SqlQuery } from './types';
+import { Settings, SqlQuery } from './types';
 import { getBackendSrv } from '@grafana/runtime';
 import { format } from 'date-fns';
 
-export class DataSource extends DataSourceApi<SqlQuery, DataSourceJsonData> {
+export class DataSource extends DataSourceApi<SqlQuery, Settings> {
   /** @ngInject */
-  constructor(private instanceSettings: DataSourceInstanceSettings<DataSourceJsonData>, public templateSrv: any) {
+  constructor(private instanceSettings: DataSourceInstanceSettings<Settings>, public templateSrv: any) {
     super(instanceSettings);
   }
 
@@ -30,7 +29,10 @@ export class DataSource extends DataSourceApi<SqlQuery, DataSourceJsonData> {
     options.startTime = range.from.valueOf();
     options.endTime = range.to.valueOf();
 
-    const baseUrl = this.instanceSettings.url!;
+    let baseUrl = this.instanceSettings.url!;
+    if (this.instanceSettings.jsonData.backend) {
+      baseUrl = 'api/ds/';
+    }
     const route = baseUrl.endsWith('/') ? 'query?' : '/query?';
 
     const opts = this.interpolate(options);
