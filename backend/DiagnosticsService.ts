@@ -1,5 +1,4 @@
 import { logger as log, CheckHealthRequest, CheckHealthResponse, DiagnosticsService, CollectMetricsRequest, CollectMetricsResponse } from '@grafana/tsbackend';
-import { SqlOptions } from './types';
 import fetch from 'node-fetch';
 
 export class SqlProxyDiagnosticsService extends DiagnosticsService {
@@ -11,16 +10,15 @@ export class SqlProxyDiagnosticsService extends DiagnosticsService {
     log.debug("We got a check health request", instanceSettings);
     if (instanceSettings) {
       const { jsondata } = instanceSettings;
-      const json: SqlOptions = JSON.parse(Buffer.from(jsondata as string, 'base64').toString('ascii'));
-      log.debug("We have jsondata", json.url, json);
-      const innerResponse = await fetch(json.url, {
+      const jsonString: string = Buffer.from(jsondata as string, 'base64').toString('ascii');
+      const innerResponse = await fetch(instanceSettings.url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(json),
+        body: jsonString,
       });
 
       response.setStatus(CheckHealthResponse.HealthStatus.OK)
-      response.setMessage(JSON.stringify(innerResponse)); 
+      response.setMessage(`Connected Successfully ${JSON.stringify(innerResponse)}`); 
     } else {
       response.setStatus(CheckHealthResponse.HealthStatus.ERROR);
       response.setMessage("Please configure the datasource first");

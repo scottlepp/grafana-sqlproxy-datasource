@@ -4,11 +4,11 @@ const { FormField } = LegacyForms;
 
 import { DataSourcePluginOptionsEditorProps } from '@grafana/data';
 import { css, cx } from 'emotion';
-import { ProxySettings } from 'types';
+import { ProxySettings, Settings } from 'types';
 
-export type Props = DataSourcePluginOptionsEditorProps<ProxySettings>;
+export type Props = DataSourcePluginOptionsEditorProps<ProxySettings | Settings>;
 
-export class ConfigEditor extends PureComponent<Props, ProxySettings> {
+export class ConfigEditor extends PureComponent<Props, ProxySettings | Settings> {
   isValidUrl = /^(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/.test(
     this.props.options.url
   );
@@ -48,10 +48,10 @@ export class ConfigEditor extends PureComponent<Props, ProxySettings> {
     this.setState(settings);
   }
 
-  onToggleChange = (opt) => {
+  onToggleChange = opt => {
     const on = opt.target.value === 'on';
-    this.onChange( { backend: on } as ProxySettings);
-  }
+    this.onChange({ backend: on } as ProxySettings);
+  };
 
   getElement(input) {
     return (

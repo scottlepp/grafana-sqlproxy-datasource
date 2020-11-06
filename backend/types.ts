@@ -1,7 +1,15 @@
-import { DataQuery, DataSourceSettings } from '@grafana/data';
+import { DataQuery, DataSourceJsonData, DataSourceSettings } from '@grafana/data';
 
 export interface SqlQuery extends DataQuery {
   sql: string;
 }
 
-export interface SqlOptions extends DataSourceSettings {}
+export interface ProxySettings extends DataSourceSettings {
+  host: string;
+  backend?: boolean;
+}
+
+export interface Settings extends DataSourceJsonData {
+  host: string;
+  backend?: boolean;
+}
