@@ -1,6 +1,6 @@
 import { logger as log, CheckHealthRequest, CheckHealthResponse, DiagnosticsService, CollectMetricsRequest, CollectMetricsResponse } from '@grafana/tsbackend';
 
-export class GithubDiagnosticsService extends DiagnosticsService {
+export class SqlProxyDiagnosticsService extends DiagnosticsService {
   CheckHealth = async (request: CheckHealthRequest): Promise<CheckHealthResponse> => {
     log.debug("We got a check health request", request.toObject().plugincontext?.datasourceinstancesettings?.decryptedsecurejsondataMap);
     const secureJsonData = request.toObject().plugincontext?.datasourceinstancesettings?.decryptedsecurejsondataMap || [];

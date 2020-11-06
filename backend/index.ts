@@ -1,9 +1,9 @@
 import { BackendServer } from '@grafana/tsbackend';
-import { GithubDiagnosticsService } from './DiagnosticsService';
-import { GithubDataService } from './DataService';
+import { SqlProxyDiagnosticsService } from './DiagnosticsService';
+import { SqlProxyDataService } from './DataService';
 
 const app = new BackendServer();
-app.addDiagnosticsService(new GithubDiagnosticsService());
-app.addDataService(new GithubDataService());
+app.addDiagnosticsService(new SqlProxyDiagnosticsService());
+app.addDataService(new SqlProxyDataService());
 
 module.exports = app;

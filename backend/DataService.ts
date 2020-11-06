@@ -1,7 +1,7 @@
 import { QueryDataRequest, DataFrame, DataService } from '@grafana/tsbackend';
 import { FieldType, ArrayVector } from '@grafana/data';
 
-export class GithubDataService extends DataService {
+export class SqlProxyDataService extends DataService {
   constructor() {
     super();
   }
