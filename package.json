@@ -5,7 +5,8 @@
   "scripts": {
     "build": "grafana-toolkit plugin:build",
     "test": "grafana-toolkit plugin:test",
-    "dev": "grafana-toolkit plugin:dev",
+    "dev": "grafana-toolkit plugin:dev && yarn backend",
+    "backend": "./node_modules/@grafana/tsbackend/bin/grafana-tsbackend gpx_sqlproxy_darwin_amd64",
     "watch": "grafana-toolkit plugin:dev --watch"
   },
   "private": true,
@@ -17,7 +18,8 @@
     "@grafana/ui": "7.1.3",
     "@types/lodash": "4.14.123",
     "@types/react": "16.8.16 ",
-    "@types/request-promise-native": "^1.0.17"
+    "@types/request-promise-native": "^1.0.17",
+    "@grafana/tsbackend": "link:/Users/stephanie/src/grafana-tsbackend"
   },
   "screenshots": [],
   "dependencies": {

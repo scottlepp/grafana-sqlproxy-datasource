@@ -4,6 +4,8 @@
   "type": "datasource",
   "metrics": true,
   "annotations": false,
+  "backend": true,
+  "executable": "gpx_sqlproxy",
   "includes": [
   ],
   "routes": [
