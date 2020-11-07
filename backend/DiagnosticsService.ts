@@ -1,31 +1,23 @@
-import { logger as log, CheckHealthRequest, CheckHealthResponse, DiagnosticsService, CollectMetricsRequest, CollectMetricsResponse } from '@grafana/tsbackend';
-import fetch from 'node-fetch';
+import { CheckHealthRequest, CheckHealthResponse, DiagnosticsService, CollectMetricsRequest, CollectMetricsResponse } from '@grafana/tsbackend';
+import { doPost } from './http';
 
 export class SqlProxyDiagnosticsService extends DiagnosticsService {
+
   CheckHealth = async (request: CheckHealthRequest): Promise<CheckHealthResponse> => {
-    const requestObj: CheckHealthRequest.AsObject = request.toObject();
-    const instanceSettings = requestObj.plugincontext?.datasourceinstancesettings;
-    const response: CheckHealthResponse = new CheckHealthResponse();
-
-    log.debug("We got a check health request", instanceSettings);
-    if (instanceSettings) {
-      const { jsondata } = instanceSettings;
-      const jsonString: string = Buffer.from(jsondata as string, 'base64').toString('ascii');
-      const innerResponse = await fetch(instanceSettings.url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: jsonString,
-      });
-
-      response.setStatus(CheckHealthResponse.HealthStatus.OK)
-      response.setMessage(`Connected Successfully ${JSON.stringify(innerResponse)}`); 
+    const settings = request.toObject().plugincontext?.datasourceinstancesettings;
+    const health: CheckHealthResponse = new CheckHealthResponse();
+    if (settings) {
+      const jsonString: string = Buffer.from(settings.jsondata as string, 'base64').toString('ascii');
+      const status = await doPost(settings.url, jsonString);
+      health.setStatus(CheckHealthResponse.HealthStatus.OK)
+      health.setMessage(`Connected Successfully ${JSON.stringify(status)}`); 
     } else {
-      response.setStatus(CheckHealthResponse.HealthStatus.ERROR);
-      response.setMessage("Please configure the datasource first");
+      health.setStatus(CheckHealthResponse.HealthStatus.ERROR);
+      health.setMessage("Please configure the datasource first");
     }
-
-    return Promise.resolve(response);
+    return health;
   }
+
   CollectMetrics = (request: CollectMetricsRequest): Promise<CollectMetricsResponse> => {
     throw new Error("Method not implemented.");
   }

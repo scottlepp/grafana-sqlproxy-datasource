@@ -3,7 +3,10 @@
   "include": ["src", "types"],
   "compilerOptions": {
     "jsx": "react",
-    "rootDir": "./src",
+    "rootDirs": [
+      "./shared",
+      "./src",
+    ],
     "baseUrl": "./src",
     "typeRoots": ["./node_modules/@types"],
     "noImplicitAny": false

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { DataSource } from '../Datasource';
 import { QueryEditorProps } from '@grafana/data';
-import { Settings, SqlQuery } from 'types';
+import { Settings, SqlQuery } from '../../shared/types';
 import { Controlled as CodeMirror } from 'react-codemirror2';
 
 import 'codemirror/lib/codemirror.css';

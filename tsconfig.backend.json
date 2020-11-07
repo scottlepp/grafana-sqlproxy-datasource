@@ -3,7 +3,10 @@
     "target": "ES6",
     "module": "commonjs",
     "sourceMap": true,
-    "rootDir": "backend",
+    "rootDirs": [
+      "./shared",
+      "./backend",
+    ],
     "outDir": "dist/backend",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

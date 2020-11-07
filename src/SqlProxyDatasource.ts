@@ -1,3 +1,4 @@
+// TODO - merge with new Datasource.ts
 import _ from 'lodash';
 import {
   DataQueryRequest,
@@ -10,7 +11,7 @@ import {
   FieldType,
 } from '@grafana/data';
 
-import { Settings, SqlQuery } from './types';
+import { Settings, SqlQuery } from '../shared/types';
 import { getBackendSrv } from '@grafana/runtime';
 import { format } from 'date-fns';
 

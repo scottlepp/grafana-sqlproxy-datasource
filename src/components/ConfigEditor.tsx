@@ -4,7 +4,7 @@ const { FormField } = LegacyForms;
 
 import { DataSourcePluginOptionsEditorProps } from '@grafana/data';
 import { css, cx } from 'emotion';
-import { ProxySettings, Settings } from 'types';
+import { ProxySettings, Settings } from '../../shared/types';
 
 export type Props = DataSourcePluginOptionsEditorProps<ProxySettings | Settings>;
 

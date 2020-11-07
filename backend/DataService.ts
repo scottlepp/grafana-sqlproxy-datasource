@@ -1,27 +1,33 @@
-import { QueryDataRequest, DataFrame, DataService } from '@grafana/tsbackend';
-import { FieldType, ArrayVector } from '@grafana/data';
+import { QueryDataRequest, DataService, DataFrame } from '@grafana/tsbackend';
+import { SqlQuery } from '../shared/types';
+import { DataQuery } from '@grafana/tsbackend/dist/proto/backend_pb';
+import { ArrayDataFrame } from '@grafana/data';
+import { doGet } from './http';
 
 export class SqlProxyDataService extends DataService {
-  constructor() {
-    super();
+
+  async QueryData(request: QueryDataRequest): Promise<DataFrame[]> {
+    const settings = request.getPlugincontext()?.getDatasourceinstancesettings();
+    const url = settings?.getUrl();
+    const results = await this.fetchResults(url!, request.getQueriesList());
+    return Promise.resolve(results);
   }
 
-  QueryData(request: QueryDataRequest): Promise<DataFrame[]> {
-    return Promise.resolve([{
-      name: 'some data',
-      fields: [{
-        name: 'time',
-        config: {},
-        type: FieldType.time,
-        values: new ArrayVector([ Date.now()]),
-      },{
-        name: 'value',
-        config: {},
-        type: FieldType.number,
-        values: new ArrayVector([ 1 ]),
-      }],
-      length: 2,
-    }]);
+  async fetchResults(url: string, queries: DataQuery[]) {
+    const results = queries.map(q => {
+      return doGet(`${url}/query?sql=${this.getQuery(q).sql}`);
+    });
+    const all = await Promise.all(results);
+    return all.map(r => this.arrayToDataFrame(r as unknown as Array<any>));
+  }
+
+  arrayToDataFrame(array: any[]): DataFrame {
+    return new ArrayDataFrame(array) as unknown as DataFrame;
+  }
+
+  getQuery(q: DataQuery): SqlQuery {
+    const json = q.getJson();
+    const jsonString: string = Buffer.from(json as string, 'base64').toString('ascii');
+    return JSON.parse(jsonString);
   }
 }
-  
