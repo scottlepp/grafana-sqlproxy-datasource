@@ -1,5 +1,5 @@
 import { CheckHealthRequest, CheckHealthResponse, DiagnosticsService, CollectMetricsRequest, CollectMetricsResponse } from '@grafana/tsbackend';
-import { doPost } from './http';
+import { doPost } from './sdk';
 
 export class SqlProxyDiagnosticsService extends DiagnosticsService {
 

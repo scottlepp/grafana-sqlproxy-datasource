@@ -9,7 +9,9 @@
     "dev": "grafana-toolkit plugin:dev && yarn backend",
     "backend": "./node_modules/@grafana/tsbackend/bin/grafana-tsbackend gpx_sqlproxy_darwin_amd64",
     "watch": "grafana-toolkit plugin:dev --watch",
-    "build-all": "yarn build && yarn backend"
+    "build-all": "yarn build && yarn backend",
+    "build-backend": "tsc --project tsconfig.backend.json",
+    "watch-backend": "tsc --project tsconfig.backend.json --watch"
   },
   "private": true,
   "license": "SEE LICENSE IN LICENSE",
@@ -17,16 +19,17 @@
     "@grafana/data": "7.1.3",
     "@grafana/runtime": "7.1.3",
     "@grafana/toolkit": "7.1.3",
+    "@grafana/tsbackend": "srclosson/grafana-tsbackend#master",
     "@grafana/ui": "7.1.3",
     "@types/lodash": "4.14.123",
+    "@types/node-fetch": "2.5.7",
     "@types/react": "16.8.16 ",
     "@types/request-promise-native": "^1.0.17",
-    "node-fetch": "2.6.1",
-    "@types/node-fetch": "2.5.7",
-    "@grafana/tsbackend": "srclosson/grafana-tsbackend#master"
+    "node-fetch": "2.6.1"
   },
   "screenshots": [],
   "dependencies": {
+    "clear-require": "^3.0.0",
     "codemirror": "^5.51.0",
     "date-fns": "^2.16.1",
     "react-codemirror2": "^6.0.0"

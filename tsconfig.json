@@ -2,6 +2,8 @@
   "extends": "./node_modules/@grafana/toolkit/src/config/tsconfig.plugin.json",
   "include": ["src", "types"],
   "compilerOptions": {
+    "target": "ES6",
+    "module": "es2015",
     "jsx": "react",
     "rootDirs": [
       "./shared",

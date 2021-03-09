@@ -7,7 +7,7 @@
       "./shared",
       "./backend",
     ],
-    "outDir": "dist/backend",
+    "outDir": "dist",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "esModuleInterop": true,
