@@ -1,9 +1,9 @@
-import { DataSourcePlugin, DataSourceJsonData } from '@grafana/data';
+import { DataSourcePlugin } from '@grafana/data';
 import { ConfigEditor } from './components/ConfigEditor';
 import { QueryEditor } from './components/QueryEditor';
-import { SqlQuery } from './types';
-import { DataSource } from './SqlProxyDatasource';
+import { SqlQuery, Settings } from '../shared/types';
+import { DataSource } from './Datasource';
 
-export const plugin = new DataSourcePlugin<DataSource, SqlQuery, DataSourceJsonData>(DataSource)
+export const plugin = new DataSourcePlugin<DataSource, SqlQuery, Settings>(DataSource)
   .setConfigEditor(ConfigEditor)
   .setQueryEditor(QueryEditor);

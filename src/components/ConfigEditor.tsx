@@ -2,17 +2,13 @@ import React, { PureComponent } from 'react';
 import { Input, LegacyForms } from '@grafana/ui';
 const { FormField } = LegacyForms;
 
-import { DataSourcePluginOptionsEditorProps, DataSourceJsonData, DataSourceSettings } from '@grafana/data';
+import { DataSourcePluginOptionsEditorProps } from '@grafana/data';
 import { css, cx } from 'emotion';
+import { ProxySettings, Settings } from '../../shared/types';
 
-interface Props extends DataSourcePluginOptionsEditorProps<DataSourceJsonData> {}
-interface ProxySettings extends DataSourceSettings {
-  host: string;
-}
+export type Props = DataSourcePluginOptionsEditorProps<ProxySettings | Settings>;
 
-interface State extends DataSourceSettings {}
-
-export class ConfigEditor extends PureComponent<Props, State> {
+export class ConfigEditor extends PureComponent<Props, ProxySettings | Settings> {
   isValidUrl = /^(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/.test(
     this.props.options.url
   );
@@ -35,22 +31,27 @@ export class ConfigEditor extends PureComponent<Props, State> {
   ];
 
   componentWillMount() {
-    this.setState(this.props.options);
+    this.setState(this.props.options.jsonData);
   }
 
   onChange(option: ProxySettings) {
     const state = this.state;
-    const jsonData = { ...state.jsonData, ...option };
+    const settings = { ...state, ...option };
 
     const { onOptionsChange, options } = this.props;
     const opt = { ...options, url: option.url || options.url };
     onOptionsChange({
       ...opt,
-      jsonData,
+      jsonData: settings,
     });
 
-    this.setState({ jsonData });
+    this.setState(settings);
   }
+
+  onToggleChange = opt => {
+    const on = opt.target.value === 'on';
+    this.onChange({ backend: on } as ProxySettings);
+  };
 
   getElement(input) {
     return (
@@ -59,7 +60,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
         css={input.css}
         className={input.style}
         placeholder={input.placeholder}
-        value={this.state.jsonData[input.key]}
+        value={this.state[input.key]}
         autoComplete={'new-password'}
         onChange={event => this.onChange(({ [input.key]: event.currentTarget.value } as unknown) as ProxySettings)}
       />
@@ -119,6 +120,22 @@ export class ConfigEditor extends PureComponent<Props, State> {
               tooltip={'Database User Password'}
               inputEl={get('password')}
             />
+          </div>
+        </div>
+
+        <h3 className="page-heading">Alerting</h3>
+        <div className="gf-form-group">
+          <div className="gf-form-inline">
+            <div className="gf-form">
+              <LegacyForms.Switch
+                label="Enable"
+                tooltip="Enable alerting"
+                checked={this.state.backend || false}
+                onChange={this.onToggleChange}
+                labelClass="width-10"
+                switchClass="max-width-6"
+              />
+            </div>
           </div>
         </div>
       </div>

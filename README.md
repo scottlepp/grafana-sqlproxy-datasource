@@ -10,6 +10,11 @@ Connect and Query from any SQL Datasource (oracle, microsoft sql server, postgre
 
 1. Install Grafana
 2. Clone this repo to the grafana plugins folder (`git clone https://github.com/grafana/sqlproxy-grafana-datasource /var/lib/grafana/plugins/sqlproxy-grafana-datasource`)
+3. Build the plugin
+```
+yarn build-all
+```
+4. (Re)start Grafana
 
 ## SQL Proxy 
 

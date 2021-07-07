@@ -1,23 +1,23 @@
+// TODO - merge with new Datasource.ts
 import _ from 'lodash';
 import {
   DataQueryRequest,
   DataQueryResponse,
   DataSourceApi,
   DataSourceInstanceSettings,
-  DataSourceJsonData,
   MutableDataFrame,
   DataFrame,
-  guessFieldTypeFromValue, 
+  guessFieldTypeFromValue,
   FieldType,
 } from '@grafana/data';
 
-import { SqlQuery } from './types';
+import { Settings, SqlQuery } from '../shared/types';
 import { getBackendSrv } from '@grafana/runtime';
-import { format, roundToNearestMinutes } from 'date-fns';
+import { format } from 'date-fns';
 
-export class DataSource extends DataSourceApi<SqlQuery, DataSourceJsonData> {
+export class DataSource extends DataSourceApi<SqlQuery, Settings> {
   /** @ngInject */
-  constructor(private instanceSettings: DataSourceInstanceSettings<DataSourceJsonData>, public templateSrv: any) {
+  constructor(private instanceSettings: DataSourceInstanceSettings<Settings>, public templateSrv: any) {
     super(instanceSettings);
   }
 
@@ -30,7 +30,10 @@ export class DataSource extends DataSourceApi<SqlQuery, DataSourceJsonData> {
     options.startTime = range.from.valueOf();
     options.endTime = range.to.valueOf();
 
-    const baseUrl = this.instanceSettings.url!;
+    let baseUrl = this.instanceSettings.url!;
+    if (this.instanceSettings.jsonData.backend) {
+      baseUrl = 'api/ds/';
+    }
     const route = baseUrl.endsWith('/') ? 'query?' : '/query?';
 
     const opts = this.interpolate(options);
@@ -100,7 +103,7 @@ export class DataSource extends DataSourceApi<SqlQuery, DataSourceJsonData> {
     return sql;
   }
 
-  applyMacroFunction(macro: string, sql: string, options: DataQueryRequest<SqlQuery>) {
+  applyMacroFunction(macro: string, sql: string, options: DataQueryRequest<SqlQuery>): string {
     if (sql.includes(macro)) {
       let time;
       if (macro === '$__timeFrom(') {
@@ -127,7 +130,7 @@ export class DataSource extends DataSourceApi<SqlQuery, DataSourceJsonData> {
     return getBackendSrv()
       .datasourceRequest({ url })
       .then(res => {
-        return res.data.map(v => ({ text: Object.values(v) }));
+        return res.data.map((v: any) => ({ text: Object.values(v) }));
       });
   }
 
